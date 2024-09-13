@@ -28,7 +28,7 @@ jobs:
           echo "url = os.getenv('DATA_URL')" >> fetch_data.py
           echo "response = requests.get(url)" >> fetch_data.py
           echo "if response.status_code == 200:" >> fetch_data.py
-          echo "    with open('mixed_data.txt', 'w') as file:" >> fetch_data.py
+          echo "    with open('vpn-Ha.txt', 'w') as file:" >> fetch_data.py
           echo "        file.write(response.text)" >> fetch_data.py
           echo "else:" >> fetch_data.py
           echo "    print(f'Failed to fetch data. Status code: {response.status_code}')" >> fetch_data.py
@@ -44,6 +44,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add mixed_data.txt
-          git commit -m "Update mixed_data.txt"
+          git add vpn-Ha.txt
+          git commit -m "Update vpn-Ha.txt"
           git push
