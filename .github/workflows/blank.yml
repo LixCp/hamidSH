@@ -39,9 +39,11 @@ jobs:
         run: python fetch_data.py
 
       - name: Commit changes
+        env:
+          ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add vpn.txt
           git commit -m "Update vpn.txt"
-          git push
+          git push https://x-access-token:${ACTIONS_PAT}@github.com/LixCp/hamidSH.git HEAD:main
