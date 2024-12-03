@@ -2,7 +2,7 @@ name: Fetch and Update Data
 
 on:
   schedule:
-    - cron: '*/59 * * * *'  # Runs every 30 minutes
+    - cron: '*/30 * * * *'  # Runs every 30 minutes
   workflow_dispatch:  # Allows manual triggering of the workflow
 
 jobs:
@@ -19,21 +19,9 @@ jobs:
           python-version: '3.x'
 
       - name: Install dependencies
-        run: pip install requests
+        run: pip install -r requirements.txt
 
-      - name: Create Python script
-        run: |
-          echo "import requests" > fetch_data.py
-          echo "import os" >> fetch_data.py
-          echo "url = os.getenv('DATA_URL')" >> fetch_data.py
-          echo "response = requests.get(url)" >> fetch_data.py
-          echo "if response.status_code == 200:" >> fetch_data.py
-          echo "    with open('vpn-Ha.txt', 'w') as file:" >> fetch_data.py
-          echo "        file.write(response.text)" >> fetch_data.py
-          echo "else:" >> fetch_data.py
-          echo "    print(f'Failed to fetch data. Status code: {response.status_code}')" >> fetch_data.py
-
-      - name: Fetch and Save Data
+      - name: Run Fetch Script
         env:
           DATA_URL: ${{ secrets.DATA_URL }}
         run: python fetch_data.py
@@ -45,5 +33,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add vpn-Ha.txt
-          git commit -m "Update vpn-Ha.txt"
+          git diff --cached --exit-code || git commit -m "Update vpn-Ha.txt"
           git push
